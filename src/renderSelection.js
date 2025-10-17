@@ -1,6 +1,10 @@
 import { CELL } from './config.js';
 
-// Renders selection rectangle based on state.drag {active, r0, c0, r1, c1}
+/**
+ * Renders selection rectangle based on state.drag {active, r0, c0, r1, c1}
+ * @param gSel D3 selector for the selection layer g element of the app.
+ * @param state JS object with the current state information for the app.
+ */
 export function renderSelection(gSel, state) {
     gSel.selectAll('*').remove();
     if (!state.drag.active) return;

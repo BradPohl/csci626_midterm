@@ -2,7 +2,15 @@ import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7/+esm';
 import { boundaryFromLeftGutter, boundaryFromTopGutter, cellFromPoint, normalizedRect, snapRectToCuts } from './utils.js';
 import { renderSelection } from './renderSelection.js';
 
-// Attaches interactions to gutters for adding/removing cuts
+/**
+ * Attaches interactions to gutters for adding/removing cuts
+ * @param svg D3 selection of the svg element containing the app's graphical elements.
+ * @param gRoot D3 selection of the root g element.
+ * @param topGutter D3 selection of the top gutter of the matrix grid.
+ * @param leftGutter D3 selection of the left gutter of the matrix grid.
+ * @param state JS object with the current state information for the app. 
+ * @param {*} param5 Rendering functions for interactions with the matrix grid.
+ */
 export function attachGutterInteractions(svg, gRoot, topGutter, leftGutter, state, { renderHover, renderCuts }) {
     // on mousemove in gutters, update state.hover; on click, toggle cut; on mouseleave, clear hover
     topGutter.on('mousemove', (ev) => {
@@ -47,10 +55,20 @@ export function attachGutterInteractions(svg, gRoot, topGutter, leftGutter, stat
     });
 }
 
-// Creates drag handlers for selection; returns {startDrag, updateDrag, endDrag}
+/**
+ * Creates drag handlers for selection; returns {startDrag, updateDrag, endDrag}
+ * @param svg D3 selection of the svg element containing the app's graphical elements.
+ * @param state JS object with the current state information for the app. 
+ * @param {*} param2 JS object containing functions to handle selecting and extracting parts of the grid.
+ * @returns A JS object with start, update, and end drag event handling functions.
+ */
 export function makeDragHandlers(svg, state, { renderSelection, onExtract }) {
 
-    // on mousedown in grid, start drag; on mousemove, update drag; on mouseup, end drag
+    /**
+     * On mousedown in grid, start drag; on mousemove, update drag; on mouseup, end drag
+     * @param ev The event that triggered this function.
+     */
+
     function startDrag(ev) {
         const p = d3.pointer(ev, svg.node());
         const { r, c } = cellFromPoint(p[0], p[1]);
@@ -62,7 +80,11 @@ export function makeDragHandlers(svg, state, { renderSelection, onExtract }) {
         window.addEventListener('mouseup', endDrag);
         renderSelection();
     }
-    // on mousemove, update state.drag {r1,c1}; if shift, snap to cuts; call renderSelection
+
+    /**
+     * On mousemove, update state.drag {r1,c1}; if shift, snap to cuts; call renderSelection
+     * @param ev The event that triggered this function.
+     */
     function updateDrag(ev) {
         if (!state.drag.active) return;
         const p = d3.pointer(ev, svg.node());
@@ -80,17 +102,18 @@ export function makeDragHandlers(svg, state, { renderSelection, onExtract }) {
         state.drag = { ...prev, active: true };
     }
 
-    // on mouseup, finalize state.drag; if shift, snap to cuts; call onExtract with final rect; clear drag state; call renderSelection
+    /**
+     * On mouseup, finalize state.drag; if shift, snap to cuts; call onExtract with final rect; clear drag state; call renderSelection
+     * @param ev The event that triggered this function.
+     */
     function endDrag(ev) {
         if (!state.drag.active) return;
         const p = d3.pointer(ev, svg.node());
         const { r, c } = cellFromPoint(p[0], p[1]);
         state.drag.r1 = r; state.drag.c1 = c; state.drag.shift = ev.shiftKey;
 
-
         let rect = normalizedRect(state.drag);
         if (state.drag.shift) rect = snapRectToCuts(rect, state.cuts);
-
 
         onExtract(rect);
         state.drag.active = false;

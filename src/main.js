@@ -35,7 +35,7 @@ const topGutter = gRoot.append('rect')
     .attr('x', PAD + GUTTER).attr('y', PAD)
     .attr('width', GRID_W).attr('height', GUTTER)
     .attr('fill', 'transparent').style('cursor', 'ns-resize');
-    const leftGutter = gRoot.append('rect')
+const leftGutter = gRoot.append('rect')
     .attr('x', PAD).attr('y', PAD + GUTTER)
     .attr('width', GUTTER).attr('height', GRID_H)
     .attr('fill', 'transparent').style('cursor', 'ew-resize');

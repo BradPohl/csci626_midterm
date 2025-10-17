@@ -1,8 +1,12 @@
 import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7/+esm';
 import { CELL, GRID_W, GRID_H, PAD, GUTTER } from './config.js';
 
-
-// Draws cells & outer border; attaches basic pointer handlers on cells
+/**
+ * Draws cells & outer border; attaches basic pointer handlers on cells
+ * @param gGrid D3 selector for the grid layer g element for the app.
+ * @param state JS object with the current state information for the app.
+ * @param {*} param2 The event handler functions to use for the grid.
+ */
 export function renderGrid(gGrid, state, { onMouseDown, onMouseMove, onMouseUp }) {
     const cellData = [];
     const rows = state.matrix.length;
