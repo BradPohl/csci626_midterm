@@ -1,6 +1,10 @@
 import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7/+esm';
 
-// Renders extracted matrices in the specified container
+/**
+ * Renders extracted matrices in the specified container
+ * @param containerSel The container div to render the user-extracted matrix in.
+ * @param state JS object with the current state information for the app.
+ */
 export function renderExtracted(containerSel, state) {
     const container = d3.select(containerSel);
     const cards = container.selectAll('div.mini').data(state.extracted, d => d.id);
@@ -30,7 +34,7 @@ export function renderExtracted(containerSel, state) {
         const s = d3.select(this).select('.mini-svg');
         s.selectAll('*').remove();
         const cellPx = 14;
-        const w = Math.max(120, d.data[0].length * cellPx);
+        const w = 120;
         const h = Math.max(90, d.data.length * cellPx);
         const svgMini = s.append('svg').attr('width', w).attr('height', h);
         const cellW = Math.floor(w / d.data[0].length);

@@ -1,7 +1,11 @@
 import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7/+esm';
 import { CELL, GRID_W, GRID_H } from './config.js';
 
-// Renders cut lines based on state.cuts {rows:Set, columns:Set}
+/**
+ * Renders cut lines based on state.cuts {rows:Set, columns:Set}
+ * @param gCuts D3 selector for the cuts layer g element for the app. 
+ * @param state JS object with the current state information for the app.
+ */
 export function renderCuts(gCuts, state) {
 const vData = Array.from(state.cuts.columns).map(c => ({ c }));
 const v = gCuts.selectAll('line.vcut').data(vData, d => d.c);

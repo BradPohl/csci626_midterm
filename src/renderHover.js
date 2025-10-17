@@ -1,6 +1,10 @@
 import { CELL, GRID_H, GRID_W, GUTTER } from './config.js';
 
-// Renders hover line based on state.hover {type:'row'|'col', index}
+/**
+ * Renders hover line based on state.hover {type:'row'|'col', index}
+ * @param gHover D3 selector for the hover layer g element for the app.
+ * @param state JS object with the current state information for the app.
+ */
 export function renderHover(gHover, state) {
     gHover.selectAll('*').remove();
     if (!state.hover.type || state.hover.index == null) return;
